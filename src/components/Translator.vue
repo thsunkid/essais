@@ -238,7 +238,6 @@ export default {
         });
 
         this.htmlTranslated = fragment.innerHTML;
-        console.log(this.htmlTranslated);
         this.tmp = "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)/span>";
       }
     },
