@@ -20,7 +20,7 @@
             :placeholder="placeholder"
             @keyup="translate"
             arial-label="Original text to be correct"
-            style="font-family: monospace; font-size: 15px;"
+            style="font-family: monospace; font-size: 15px; min-height: 255px"
           >
           </b-form-textarea>
 
@@ -54,33 +54,35 @@
           </b-tooltip>
         </b-col>
 
-        <b-col class="translated-container mb-3" lg="6" md="6" sm="12">
-          <div v-if="this.inputValue">
-            <b-form-textarea
-              id="translation-result"
-              class="w-100 textarea-container"
-              data-cy="target-text-translation-form"
-              rows="9"
-              style="font-family: monospace; font-size: 15px; background-color: white;"
-              spellcheck="false"
-              disabled
-            >
-            </b-form-textarea>
+        <b-col class="translated-container mb-3" lg="6" md="6" sm="12" style="padding-bottom: 40px; min-height: 255px;">
+          <div v-if="this.inputValue" style="height: 100%;">
+<!--            <b-form-textarea-->
+<!--              id="translation-result"-->
+<!--              class="w-100 textarea-container"-->
+<!--              data-cy="target-text-translation-form"-->
+<!--              rows="9"-->
+<!--              style="font-family: monospace; font-size: 15px; background-color: white;"-->
+<!--              spellcheck="false"-->
+<!--              disabled-->
+<!--            >-->
+<!--            </b-form-textarea>-->
             <div
               v-html="this.htmlTranslated"
-              style="margin: 7px 20px 6px 13px;font-family: monospace; font-size: 15px; text-align: left;"
+              style="font-family: monospace; font-size: 15px;
+              text-align: left; border: 1px solid #ced4da; border-radius: 0.25rem;
+              padding: 0.375rem 0.75rem; height: 100%;"
             ></div>
           </div>
 
-          <b-form-textarea
-            class="w-100"
-            rows="9"
-            placeholder="What you can fix will displayed here!"
-            aria-label="Text already corrected"
-            v-else
-            style="font-family: monospace; font-size: 15px;background-color: white;"
-            disabled
-          ></b-form-textarea>
+<!--          <b-form-textarea-->
+<!--            class="w-100"-->
+<!--            rows="9"-->
+<!--            placeholder="What you can fix will displayed here!"-->
+<!--            aria-label="Text already corrected"-->
+<!--            v-else-->
+<!--            style="font-family: monospace; font-size: 15px;background-color: white;"-->
+<!--            disabled-->
+<!--          ></b-form-textarea>-->
 
           <b-button
             id="copyBtn2"
@@ -89,7 +91,6 @@
             :disabled="!this.wordTranslated"
             :data-clipboard-text="this.wordTranslated"
             @click="showTooltipTranslatedText = true"
-            style="position: absolute; right: 15px;"
             ><i class="fas fa-copy"></i>
           </b-button>
 
@@ -154,9 +155,9 @@ export default {
   data() {
     return {
       placeholder: "Write down what you think ...",
-      wordTranslated: "",
+      wordTranslated: "What you can fix will displayed here!",
       tmp: "",
-      inputValue: "",
+      inputValue: "Write down what you think ...",
       languageFrom: null,
       nativeLang: "vi",
       languageTitle: null,
