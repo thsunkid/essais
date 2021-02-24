@@ -160,7 +160,7 @@ export default {
   },
   data() {
     return {
-      placeholder: "Write down what you think ...",
+      placeholder: "ฅ^•ﻌ•^ฅ v Write down what you think ...",
       wordTranslated: "",
       tmp: "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)</span>",
       inputValue: "",
@@ -219,7 +219,7 @@ export default {
           this.tmp
         );
 
-        // const diff = Diff.diffWords(this.inputValue, wordTranslated, false);
+        // const diff = Diff.diffWords(this.inputValue, this.wordTranslated, false);
         const dmp = new DiffMatchPatch();
         const diff = dmp.diff_main(this.inputValue, this.wordTranslated);
         dmp.diff_cleanupEfficiency(diff);
@@ -228,17 +228,19 @@ export default {
         diff.forEach(part => {
           const color =
             part[0] == 1 ? "#bfeaa6" : part[0] == -1 ? "#f9efef" : "#ffffff00";
+            // part.added ? "bfeaa6" : part.removed ?  "#f9efef" : "#ffffff00";
           const textdec =
             part[0] == 1 ? "" : part[0] == -1 ? "line-through" : "";
+            // part.added ? "" : part.removed ?  "line-through" : "";
           const span = document.createElement("span");
           span.style.background = color;
           span.style.textDecoration = textdec;
           span.appendChild(document.createTextNode(part[1]));
+          // span.appendChild(document.createTextNode(part.value));
           fragment.appendChild(span);
         });
-
         this.htmlTranslated = fragment.innerHTML;
-        this.tmp = "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)/span>";
+        this.tmp = "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)</span>";
       }
     },
 

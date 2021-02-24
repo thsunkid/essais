@@ -5,8 +5,7 @@
         <!-- <strong>Native language:</strong> -->
       </span>
       <b-col class="p-0 my-3" col lg="3" md="3" sm="10" cols="9">
-        <!-- <b>Navite Language:</b>: -->
-        <b>Pick Your Native Language</b>
+        <b style="margin: 0px 30px 0px 0px;">Pick Your Native Language</b>
         <b-form-select
           class="language__selectors"
           v-model="optionTo"
@@ -14,7 +13,7 @@
           aria-label="Output text translated"
           style="margin: 0px 30px 0px 0px;width:70%;"
         >
-          <option value="vi" style="margin: 0px 30px 0px 0px;">Vietnamese (default)</option>;
+          <option value="vi">Vietnamese (default)</option>;
           <option
             v-for="(option, index) in languageOptions"
             :key="index"
