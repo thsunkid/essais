@@ -55,7 +55,7 @@
         </b-col>
 
         <b-col class="translated-container mb-3" lg="6" md="6" sm="12" style="padding-bottom: 40px; min-height: 255px;">
-          <div v-if="this.inputValue" style="height: 100%;">
+          <div style="height: 100%;">
 <!--            <b-form-textarea-->
 <!--              id="translation-result"-->
 <!--              class="w-100 textarea-container"-->
@@ -66,11 +66,17 @@
 <!--              disabled-->
 <!--            >-->
 <!--            </b-form-textarea>-->
-            <div
+            <div v-if="this.inputValue"
               v-html="this.htmlTranslated"
               style="font-family: monospace; font-size: 15px;
               text-align: left; border: 1px solid #ced4da; border-radius: 0.25rem;
               padding: 0.375rem 0.75rem; height: 100%;"
+            ></div>
+            <div v-else
+              v-html="this.tmp"
+              style="font-family: monospace; font-size: 15px;
+              text-align: left; border: 1px solid #ced4da; border-radius: 0.25rem;
+              padding: 0.375rem 0.75rem; height: 100%;"           
             ></div>
           </div>
 
@@ -155,9 +161,9 @@ export default {
   data() {
     return {
       placeholder: "Write down what you think ...",
-      wordTranslated: "What you can fix will displayed here!",
-      tmp: "",
-      inputValue: "Write down what you think ...",
+      wordTranslated: "",
+      tmp: "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)</span>",
+      inputValue: "",
       languageFrom: null,
       nativeLang: "vi",
       languageTitle: null,
@@ -232,6 +238,8 @@ export default {
         });
 
         this.htmlTranslated = fragment.innerHTML;
+        console.log(this.htmlTranslated);
+        this.tmp = "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)/span>";
       }
     },
 
