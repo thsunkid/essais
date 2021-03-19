@@ -19,6 +19,7 @@
             v-model="inputValue"
             :placeholder="placeholder"
             @keyup="translate"
+             maxlength="400"
             arial-label="Original text to be correct"
             style="font-family: monospace; font-size: 15px; min-height: 255px"
           >
@@ -132,8 +133,8 @@ import LanguageSelector from "./LanguageSelector";
 import MetaData from "./MetaData";
 // import SpinnerAnimation from "./SpinnerAnimation";
 import SwitcherTheme from "./SwitcherTheme";
-import DiffMatchPatch from "diff-match-patch";
-// import * as Diff from "diff";
+// import DiffMatchPatch from "diff-match-patch";
+import * as Diff from "diff";
 import "colors";
 // const dmp = new DiffMatchPatch();
 // const diffs = dmp.diff_main(
@@ -160,9 +161,9 @@ export default {
   },
   data() {
     return {
-      placeholder: "ฅ^•ﻌ•^ฅ v Write down what you think ...",
+      placeholder: "ฅ^•ﻌ•^ฅ Write down what you think ...\n.\n.\n.\n.(Currently limited to 400 characters)",
       wordTranslated: "",
-      tmp: "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)</span>",
+      tmp: "<span style=\"color: rgb(109, 117, 125);\">Here is a (maybe) better version of it. </span>",
       inputValue: "",
       languageFrom: null,
       nativeLang: "vi",
@@ -219,28 +220,87 @@ export default {
           this.tmp
         );
 
-        // const diff = Diff.diffWords(this.inputValue, this.wordTranslated, false);
-        const dmp = new DiffMatchPatch();
-        const diff = dmp.diff_main(this.inputValue, this.wordTranslated);
-        dmp.diff_cleanupEfficiency(diff);
+        const diff = Diff.diffWords(this.inputValue, this.wordTranslated, false);
+        // const dmp = new DiffMatchPatch();
+        // const diff = dmp.diff_main(this.inputValue, this.wordTranslated);
+        // dmp.diff_cleanupEfficiency(diff);
         const fragment = document.createElement("span");
+        const fragment1 = document.createElement("span");
 
-        diff.forEach(part => {
+        let createhtmlTranslated = async function (part){
+          // Create span
           const color =
-            part[0] == 1 ? "#bfeaa6" : part[0] == -1 ? "#f9efef" : "#ffffff00";
-            // part.added ? "bfeaa6" : part.removed ?  "#f9efef" : "#ffffff00";
+            // part[0] == 1 ? "#bfeaa6" : part[0] == -1 ? "#f9efef" : "#ffffff00";
+            part.added ? "#bfeaa6" : part.removed ?  "#f9efef" : "#ffffff00";
           const textdec =
-            part[0] == 1 ? "" : part[0] == -1 ? "line-through" : "";
-            // part.added ? "" : part.removed ?  "line-through" : "";
+            // part[0] == 1 ? "" : part[0] == -1 ? "line-through" : "";
+            part.added ? "" : part.removed ?  "line-through" : "";
           const span = document.createElement("span");
           span.style.background = color;
           span.style.textDecoration = textdec;
-          span.appendChild(document.createTextNode(part[1]));
+
+
+          // Resolve space problem
+          // if (idx > 0 && 
+          // ((part.added && diff[idx-1].removed) || 
+          // (part.removed && diff[idx-1].added))){
+          //   fragment.appendChild(document.createTextNode(" "));
+          //   fragment1.appendChild(document.createTextNode(" "));
+          // }
+          // fragment.appendChild(document.createTextNode(" "));
+          
+          // Add span
+          // span.appendChild(document.createTextNode(part[1]));
+            
+          if (part.value.slice(-1) == " " && (part.added||part.removed) ) {
+            span.appendChild(document.createTextNode(part.value.slice(0,-1)));
+            // if (!part.added) {
+            //   fragment.appendChild(document.createTextNode(" "));
+            // }
+            // if (!part.removed) {
+            //   fragment1.appendChild(document.createTextNode(" "));              
+            // }
+
+            const span_clone = span.cloneNode(true);
+
+            if (!part.added) {
+              fragment.appendChild(span);
+              fragment.appendChild(document.createTextNode(" "));
+            }
+            if (!part.removed) {
+              fragment1.appendChild(span_clone);    
+              fragment1.appendChild(document.createTextNode(" "));             
+            }
+            
+            
+            
+
+          }
+          else {
+            span.appendChild(document.createTextNode(part.value));
+            const span_clone = span.cloneNode(true);
+
+            if (!part.added) {
+              fragment.appendChild(span);
+            }
+            if (!part.removed) {
+              fragment1.appendChild(span_clone);              
+            }
+          }
           // span.appendChild(document.createTextNode(part.value));
-          fragment.appendChild(span);
-        });
+
+          // fragment.appendChild(span);
+        
+        }
+
+        diff.forEach(createhtmlTranslated);
+
+        fragment.appendChild(document.createElement("br"));
+        fragment.appendChild(document.createElement("br"));
+        fragment.append(fragment1);
         this.htmlTranslated = fragment.innerHTML;
-        this.tmp = "<span style=\"color: rgb(109, 117, 125);\">Here is a better version of it. (⁎❛ᴗ❛⁎)</span>";
+        // this.htmlTranslated = dmp.diff_prettyHtml(diff);
+        this.tmp = "<span style=\"color: rgb(109, 117, 125);\">Here is a (maybe) better version of it. </span>";
       }
     },
 

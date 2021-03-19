@@ -6,7 +6,7 @@
         target="_blank"
         rel="noopener"
       >
-        to write better. to think better</a
+        Debug your thinking.</a
       >
     </p>
   </div>
