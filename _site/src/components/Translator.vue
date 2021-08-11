@@ -9,9 +9,8 @@
       <language-selector @onLangSelect="updateNativeLang"></language-selector>
       <!-- <LanguageSelector /> -->
       <MetaData />
-
-      <b-row class="align-items-center no-gutters">
-        <b-col class="mt-3" lg="5" md="5" sm="12">
+      <b-row>
+        <b-col class=" mb-3" lg="6" md="6" sm="12">
           <b-form-textarea
             class="textarea w-100"
             data-cy="source-text-translation-form"
@@ -20,7 +19,7 @@
             v-model="inputValue"
             :placeholder="placeholder"
             @keyup="translate"
-            maxlength="400"
+             maxlength="400"
             arial-label="Original text to be correct"
             style="font-family: monospace; font-size: 15px; min-height: 255px"
           >
@@ -56,40 +55,31 @@
           </b-tooltip>
         </b-col>
 
-        <div class="col-sm-2 mb-4">
-          <button type="button" class="btn btn-outline-success" @click="translate">Debug</button>
-        </div>
-
-        <b-col
-          class=" mt-3" lg="5" md="5" sm="12"
-          style="padding-bottom: 0px; min-height: 255px;"
-        >
+        <b-col class="translated-container mb-3" lg="6" md="6" sm="12" style="padding-bottom: 40px; min-height: 255px;">
           <div style="height: 100%;">
-           <!-- <b-form-textarea
-             id="translation-result"
-             class="w-100 textarea-container"
-             data-cy="target-text-translation-form"
-             rows="9"
-             style="font-family: monospace; font-size: 15px; background-color: white;"
-             spellcheck="false"
-             disabled
-           >
-           </b-form-textarea> -->
+<!--            <b-form-textarea-->
+<!--              id="translation-result"-->
+<!--              class="w-100 textarea-container"-->
+<!--              data-cy="target-text-translation-form"-->
+<!--              rows="9"-->
+<!--              style="font-family: monospace; font-size: 15px; background-color: white;"-->
+<!--              spellcheck="false"-->
+<!--              disabled-->
+<!--            >-->
+<!--            </b-form-textarea>-->
             <div v-if="this.inputValue"
               v-html="this.htmlTranslated"
               style="font-family: monospace; font-size: 15px;
               text-align: left; border: 1px solid #ced4da; border-radius: 0.25rem;
-              padding: 0.375rem 0.75rem; height: 100%; min-height:255px;"
+              padding: 0.375rem 0.75rem; height: 100%;"
             ></div>
             <div v-else
               v-html="this.tmp"
               style="font-family: monospace; font-size: 15px;
               text-align: left; border: 1px solid #ced4da; border-radius: 0.25rem;
-              padding: 0.375rem 0.75rem; height: 100%; min-height:255px;"
+              padding: 0.375rem 0.75rem; height: 100%;"           
             ></div>
           </div>
-
-                      
 
 <!--          <b-form-textarea-->
 <!--            class="w-100"-->
@@ -171,13 +161,10 @@ export default {
   },
   data() {
     return {
-      placeholder:
-        "ฅ^•ﻌ•^ฅ Write down what you think ...\n.\n.\n.\n.(Currently limited to 400 characters)",
+      placeholder: "ฅ^•ﻌ•^ฅ Write down what you think ...\n.\n.\n.\n.(Currently limited to 400 characters)",
       wordTranslated: "",
-      tmp:
-        '<span style="color: rgb(109, 117, 125);">Here is a (maybe) better version of it. </span>',
+      tmp: "<span style=\"color: rgb(109, 117, 125);\">Here is a (maybe) better version of it. </span>",
       inputValue: "",
-      counter: 0,
       languageFrom: null,
       nativeLang: "vi",
       languageTitle: null,
@@ -186,7 +173,6 @@ export default {
       showTooltipTranslatedText: false
     };
   },
-
   mounted() {
     new ClipboardJS(".btn");
     this.preloaderSpinner();
@@ -225,7 +211,7 @@ export default {
     },
 
     async translate(e) {
-      if (e.key == "Enter" || "pointerId" in e) {
+      if (e.key == "Enter") {
         this.tmp = await this.callAPI(this.nativeLang, "en", this.inputValue);
 
         this.wordTranslated = await this.callAPI(
@@ -234,19 +220,14 @@ export default {
           this.tmp
         );
 
-        // compare diff word
-        const diff = Diff.diffWords(
-          this.inputValue,
-          this.wordTranslated,
-          false
-        );
+        const diff = Diff.diffWords(this.inputValue, this.wordTranslated, false);
         // const dmp = new DiffMatchPatch();
         // const diff = dmp.diff_main(this.inputValue, this.wordTranslated);
         // dmp.diff_cleanupEfficiency(diff);
         const fragment = document.createElement("span");
         const fragment1 = document.createElement("span");
 
-        let createhtmlTranslated = async function(part) {
+        let createhtmlTranslated = async function (part){
           // Create span
           const color =
             // part[0] == 1 ? "#bfeaa6" : part[0] == -1 ? "#f9efef" : "#ffffff00";
@@ -258,6 +239,7 @@ export default {
           span.style.background = color;
           span.style.textDecoration = textdec;
 
+
           // Resolve space problem
           // if (idx > 0 && 
           // ((part.added && diff[idx-1].removed) || 
@@ -266,17 +248,17 @@ export default {
           //   fragment1.appendChild(document.createTextNode(" "));
           // }
           // fragment.appendChild(document.createTextNode(" "));
-
+          
           // Add span
           // span.appendChild(document.createTextNode(part[1]));
-
-          if (part.value.slice(-1) == " " && (part.added || part.removed)) {
+            
+          if (part.value.slice(-1) == " " && (part.added||part.removed) ) {
             span.appendChild(document.createTextNode(part.value.slice(0,-1)));
             // if (!part.added) {
             //   fragment.appendChild(document.createTextNode(" "));
             // }
             // if (!part.removed) {
-            //   fragment1.appendChild(document.createTextNode(" "));
+            //   fragment1.appendChild(document.createTextNode(" "));              
             // }
 
             const span_clone = span.cloneNode(true);
@@ -289,7 +271,12 @@ export default {
               fragment1.appendChild(span_clone);    
               fragment1.appendChild(document.createTextNode(" "));             
             }
-          } else {
+            
+            
+            
+
+          }
+          else {
             span.appendChild(document.createTextNode(part.value));
             const span_clone = span.cloneNode(true);
 
@@ -303,7 +290,8 @@ export default {
           // span.appendChild(document.createTextNode(part.value));
 
           // fragment.appendChild(span);
-        };
+        
+        }
 
         diff.forEach(createhtmlTranslated);
 
@@ -312,8 +300,7 @@ export default {
         fragment.append(fragment1);
         this.htmlTranslated = fragment.innerHTML;
         // this.htmlTranslated = dmp.diff_prettyHtml(diff);
-        this.tmp =
-          '<span style="color: rgb(109, 117, 125);">Here is a (maybe) better version of it. </span>';
+        this.tmp = "<span style=\"color: rgb(109, 117, 125);\">Here is a (maybe) better version of it. </span>";
       }
     },
 
@@ -335,8 +322,5 @@ export default {
 @import "@/styles/scss/_copy-audio-buttons.scss";
 b-form-textarea:disabled {
   background-color: rgb(255, 255, 255);
-}
-.mb-4 .my-4 {
-  margin-bottom: 3rem !important;
 }
 </style>

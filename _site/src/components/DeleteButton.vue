@@ -27,7 +27,7 @@ export default {
     cursor: pointer;
     position: absolute;
     top: 235px;
-    right: -10px;
+    right: 0px;
     &:after {
       content: "X";
       display: block;
