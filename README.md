@@ -1,10 +1,12 @@
-# Essais  
-Be well-written
+# <center>Essais</center>  
+
+To be well-written
 
 The source code was adapted from [this project](https://github.com/Manuel-Suarez-Abascal/translator-vuejs)
-## Demo 
-Check the [demo here](https://vn-essais.web.app/)  
 
+## Demo 
+Check here for [the demo](https://vn-essais.web.app/)  
+![](src/assets/example.png)
 ## Project Setup
 
 ### Dependencies

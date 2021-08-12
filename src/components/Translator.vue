@@ -317,6 +317,9 @@ export default {
         this.tmp =
           '<span style="color: rgb(109, 117, 125);">Here is a (maybe) better version of it. </span>';
       }
+      if (e.key == "Backspace" || e.key == "Delete"){
+        this.htmlTranslated = "";
+      }
     },
 
     updateNativeLang(index) {
