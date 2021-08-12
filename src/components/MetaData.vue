@@ -1,12 +1,12 @@
 <template>
   <div class="link" data-cy="meta-data">
-    <p class="text-secondary">
+    <p class="mb-5 text-secondary">
       <a
         class="link__vue font-weight-bold text-decoration-none"
         target="_blank"
         rel="noopener"
       >
-        Debug your thoughts.</a
+        </a
       >
     </p>
   </div>

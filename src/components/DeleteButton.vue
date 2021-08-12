@@ -26,15 +26,16 @@ export default {
     outline: 0;
     cursor: pointer;
     position: absolute;
-    top: 235px;
-    right: -10px;
+    top: 230px;
+    right: -20px;
     &:after {
-      content: "X";
+      content: "❌";
       display: block;
       width: 20px;
       height: 20px;
       position: absolute;
-      background-color: rgb(224, 44, 44);
+      // background-color: rgb(255, 255, 255);
+      // box-shadow: 0 0 2px #e50f0f;
       z-index: 1;
       right: 35px;
       bottom: 203px;
@@ -45,7 +46,6 @@ export default {
       color: #fff;
       font-weight: normal;
       font-size: 12px;
-      box-shadow: 0 0 2px #e50f0f;
       cursor: pointer;
     }
   }

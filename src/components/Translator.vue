@@ -4,7 +4,7 @@
 
     <!-- <div v-else> -->
     <div>
-      <SwitcherTheme />
+      <b-img :src="require('../assets/logo.png')" alt="Logo Essais" height="130"> </b-img>
 
       <language-selector @onLangSelect="updateNativeLang"></language-selector>
       <!-- <LanguageSelector /> -->
@@ -56,8 +56,8 @@
           </b-tooltip>
         </b-col>
 
-        <div class="col-sm-2 mb-4">
-          <button type="button" class="btn btn-outline-success" @click="translate">Debug</button>
+        <div class="col-sm-2 mb-4" onclick="void(0);">
+          <b-button variant="success" @click="translate" style="font-size:20px;">👉</b-button>
         </div>
 
         <b-col
@@ -75,31 +75,23 @@
              disabled
            >
            </b-form-textarea> -->
-            <div v-if="this.inputValue"
+            <div
+              v-if="this.inputValue"
               v-html="this.htmlTranslated"
+              class="form-control"
               style="font-family: monospace; font-size: 15px;
               text-align: left; border: 1px solid #ced4da; border-radius: 0.25rem;
               padding: 0.375rem 0.75rem; height: 100%; min-height:255px;"
             ></div>
-            <div v-else
+            <div
+              v-else
               v-html="this.tmp"
+              class="form-control"
               style="font-family: monospace; font-size: 15px;
               text-align: left; border: 1px solid #ced4da; border-radius: 0.25rem;
               padding: 0.375rem 0.75rem; height: 100%; min-height:255px;"
             ></div>
           </div>
-
-                      
-
-<!--          <b-form-textarea-->
-<!--            class="w-100"-->
-<!--            rows="9"-->
-<!--            placeholder="What you can fix will displayed here!"-->
-<!--            aria-label="Text already corrected"-->
-<!--            v-else-->
-<!--            style="font-family: monospace; font-size: 15px;background-color: white;"-->
-<!--            disabled-->
-<!--          ></b-form-textarea>-->
 
           <b-button
             id="copyBtn2"
@@ -141,8 +133,6 @@ import ClipboardJS from "clipboard";
 import DeleteButton from "./DeleteButton";
 import LanguageSelector from "./LanguageSelector";
 import MetaData from "./MetaData";
-// import SpinnerAnimation from "./SpinnerAnimation";
-import SwitcherTheme from "./SwitcherTheme";
 // import DiffMatchPatch from "diff-match-patch";
 import * as Diff from "diff";
 import "colors";
@@ -166,16 +156,14 @@ export default {
     DeleteButton,
     LanguageSelector,
     MetaData,
-    // SpinnerAnimation,
-    SwitcherTheme
   },
   data() {
     return {
-      placeholder:
-        "ฅ^•ﻌ•^ฅ Write down what you think ...\n.\n.\n.\n.(Currently limited to 400 characters)",
+      placeholder: "ฅ^•ﻌ•^ฅ Write what you think here...",
       wordTranslated: "",
       tmp:
         '<span style="color: rgb(109, 117, 125);">Here is a (maybe) better version of it. </span>',
+      htmlTranslated: "",
       inputValue: "",
       counter: 0,
       languageFrom: null,
@@ -225,7 +213,12 @@ export default {
     },
 
     async translate(e) {
-      if (e.key == "Enter" || "pointerId" in e) {
+      if (
+        e.key == "Enter" ||
+        e.type == "click"
+        // e instanceof PointerEvent ||
+        // e instanceof MouseEvent
+      ) {
         this.tmp = await this.callAPI(this.nativeLang, "en", this.inputValue);
 
         this.wordTranslated = await this.callAPI(
@@ -246,72 +239,81 @@ export default {
         const fragment = document.createElement("span");
         const fragment1 = document.createElement("span");
 
-        let createhtmlTranslated = async function(part) {
-          // Create span
-          const color =
-            // part[0] == 1 ? "#bfeaa6" : part[0] == -1 ? "#f9efef" : "#ffffff00";
-            part.added ? "#bfeaa6" : part.removed ?  "#f9efef" : "#ffffff00";
-          const textdec =
-            // part[0] == 1 ? "" : part[0] == -1 ? "line-through" : "";
-            part.added ? "" : part.removed ?  "line-through" : "";
-          const span = document.createElement("span");
-          span.style.background = color;
-          span.style.textDecoration = textdec;
+        if (
+          this.inputValue.trim().toLowerCase() !=
+          this.wordTranslated.trim().toLowerCase()
+        ) {
+          let createhtmlTranslated = async function(part) {
+            // Create span
+            const color =
+              // part[0] == 1 ? "#bfeaa6" : part[0] == -1 ? "#f9efef" : "#ffffff00";
+              part.added ? "#bfeaa6" : part.removed ?  "#f9efef" : "#ffffff00";
+            const textdec =
+              // part[0] == 1 ? "" : part[0] == -1 ? "line-through" : "";
+              part.added ? "" : part.removed ?  "line-through" : "";
+            const span = document.createElement("span");
+            span.style.background = color;
+            span.style.textDecoration = textdec;
 
-          // Resolve space problem
-          // if (idx > 0 && 
-          // ((part.added && diff[idx-1].removed) || 
-          // (part.removed && diff[idx-1].added))){
-          //   fragment.appendChild(document.createTextNode(" "));
-          //   fragment1.appendChild(document.createTextNode(" "));
-          // }
-          // fragment.appendChild(document.createTextNode(" "));
-
-          // Add span
-          // span.appendChild(document.createTextNode(part[1]));
-
-          if (part.value.slice(-1) == " " && (part.added || part.removed)) {
-            span.appendChild(document.createTextNode(part.value.slice(0,-1)));
-            // if (!part.added) {
+            // Resolve space problem
+            // if (idx > 0 && 
+            // ((part.added && diff[idx-1].removed) || 
+            // (part.removed && diff[idx-1].added))){
             //   fragment.appendChild(document.createTextNode(" "));
-            // }
-            // if (!part.removed) {
             //   fragment1.appendChild(document.createTextNode(" "));
             // }
+            // fragment.appendChild(document.createTextNode(" "));
 
-            const span_clone = span.cloneNode(true);
+            // Add span
+            // span.appendChild(document.createTextNode(part[1]));
 
-            if (!part.added) {
-              fragment.appendChild(span);
-              fragment.appendChild(document.createTextNode(" "));
+            if (part.value.slice(-1) == " " && (part.added || part.removed)) {
+              span.appendChild(document.createTextNode(part.value.slice(0,-1)));
+              // if (!part.added) {
+              //   fragment.appendChild(document.createTextNode(" "));
+              // }
+              // if (!part.removed) {
+              //   fragment1.appendChild(document.createTextNode(" "));
+              // }
+
+              const span_clone = span.cloneNode(true);
+
+              if (!part.added) {
+                fragment.appendChild(span);
+                fragment.appendChild(document.createTextNode(" "));
+              }
+              if (!part.removed) {
+                fragment1.appendChild(span_clone);
+                fragment1.appendChild(document.createTextNode(" "));
+              }
+            } else {
+              span.appendChild(document.createTextNode(part.value));
+              const span_clone = span.cloneNode(true);
+
+              if (!part.added) {
+                fragment.appendChild(span);
+              }
+              if (!part.removed) {
+                fragment1.appendChild(span_clone);
+              }
             }
-            if (!part.removed) {
-              fragment1.appendChild(span_clone);    
-              fragment1.appendChild(document.createTextNode(" "));             
-            }
-          } else {
-            span.appendChild(document.createTextNode(part.value));
-            const span_clone = span.cloneNode(true);
+            // span.appendChild(document.createTextNode(part.value));
 
-            if (!part.added) {
-              fragment.appendChild(span);
-            }
-            if (!part.removed) {
-              fragment1.appendChild(span_clone);              
-            }
-          }
-          // span.appendChild(document.createTextNode(part.value));
+            // fragment.appendChild(span);
+          };
 
-          // fragment.appendChild(span);
-        };
+          diff.forEach(createhtmlTranslated);
 
-        diff.forEach(createhtmlTranslated);
-
-        fragment.appendChild(document.createElement("br"));
-        fragment.appendChild(document.createElement("br"));
-        fragment.append(fragment1);
-        this.htmlTranslated = fragment.innerHTML;
-        // this.htmlTranslated = dmp.diff_prettyHtml(diff);
+          // Add 2 linebreak
+          fragment.appendChild(document.createElement("br"));
+          fragment.appendChild(document.createElement("br"));
+          fragment.append(fragment1);
+          fragment.innerHTML;
+          this.htmlTranslated = fragment.innerHTML;
+          // this.htmlTranslated = dmp.diff_prettyHtml(diff);
+        } else {
+          this.htmlTranslated = this.inputValue + "✔";
+        }
         this.tmp =
           '<span style="color: rgb(109, 117, 125);">Here is a (maybe) better version of it. </span>';
       }

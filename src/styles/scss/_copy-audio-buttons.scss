@@ -2,7 +2,7 @@
     padding-right: 50px !important;
     /* Styling for copying text/audio voice buttons */
     &__buttons {
-      border: none;
+      border: 2 px !important;
       position: relative;
       bottom: 45px;
       float: right;
@@ -12,13 +12,21 @@
       } 
     } 
   }
+  .form-control {
+    border:  2px solid !important;
+    box-shadow: 2px 2px 2px 2px #888888 !important;
+  }
   .btn-secondary {
     color: #000 !important;
     background-color: #fff !important;
     border: none !important;
   }
+  .btn {
+    font-family: monospace;
+    font-weight: bold !important;
+  }
   .btn:focus {
     outline: none !important;
-    box-shadow: 5px 10px #888888 !important;
-    border: 1 px solid transparent !important;
+    box-shadow: 2px 2px #888888 !important;
+    
   }

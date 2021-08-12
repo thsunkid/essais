@@ -1,12 +1,9 @@
-# translator-vuejs
+# Debug English writing for L2 speaker
 
-Check the [demo here](https://manuel-suarez-abascal.github.io/translator-vuejs/)
+Check the [demo here](https://vn-essais.web.app/)  
+The source code was adapted from [this project](ttps://github.com/Manuel-Suarez-Abascal/translator-vuejs)
 
-# Project Setup
-
-=================
-
-# Dependencies
+## Dependencies
 
 Make sure to have all these dependencies installed in your local machine:
 
@@ -36,34 +33,8 @@ It will open a developer environment local server in ```http://localhost:8080/``
 npm run build
 ```
 
-### Run your tests with [Cypress.js](https://www.cypress.io/) 
-[![Cypress.io tests](https://img.shields.io/badge/cypress.io-tests-green.svg?style=flat-square)](https://cypress.io)
+or run a one-off command to deploy firebase
 
-- First, make sure that your project is **[running locally](#run-the-project-for-local-development)**.
-
-- Once your local development is running & ready, open a new terminal, go to the project's root folder & run the command:
 ```
-npm run cypress:open
+/bin/bash deploy.sh
 ```
-If everything was done correctly, you'll get a popup window...make sure to click in `application-testing.js` & cypress'll start running the tests.
-
-**Notes:** 
-
-- For contributing all tests must passed before requesting a new `Pull Request`.
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-# Future Enhancement
-
-- Disable 'play' button if language audio is not available.
-- Add theme selection to local storage.
-
-# Contributors
-
-- [Kamer Elciyar](https://github.com/kamer)
