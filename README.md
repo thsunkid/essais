@@ -1,7 +1,7 @@
 # Essais  
 Be well-written
 
-The source code was adapted from [this project](ttps://github.com/Manuel-Suarez-Abascal/translator-vuejs)
+The source code was adapted from [this project](https://github.com/Manuel-Suarez-Abascal/translator-vuejs)
 ## Demo 
 Check the [demo here](https://vn-essais.web.app/)  
 
