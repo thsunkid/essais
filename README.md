@@ -1,7 +1,9 @@
-# Debug English writing for L2 speaker
+# Essais  
+Be well-written
 
-Check the [demo here](https://vn-essais.web.app/)  
 The source code was adapted from [this project](ttps://github.com/Manuel-Suarez-Abascal/translator-vuejs)
+## Demo 
+Check the [demo here](https://vn-essais.web.app/)  
 
 ## Project Setup
 
