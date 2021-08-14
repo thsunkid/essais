@@ -1,6 +1,6 @@
 <template>
   <div id="app" data-cy="application-wrapper">
-    <Translator apikey="YOUR KEY HERE" />
+    <Translator apikey="AIzaSyDGALNSOMg5r0ZWLvWJZNRQKH0bpWjR4Kc" />
   </div>
 </template>
 
